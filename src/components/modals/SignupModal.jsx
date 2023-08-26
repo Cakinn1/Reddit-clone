@@ -54,11 +54,11 @@ const SignupModal = () => {
   }
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if(user) {
-        setEmail(user.email)
+      if (user) {
+        setEmail(user.email);
       }
-    })
-  }, [])
+    });
+  }, []);
 
   async function guestSignIn() {
     await signInWithEmailAndPassword(
@@ -66,11 +66,11 @@ const SignupModal = () => {
       "guest123@gmail.com",
       "guest123"
     ).then((userCredential) => {
-      setIsLoading(true)
+      setIsLoading(true);
       const user = userCredential.user;
       dispatch(setUser({ uid: user.uid, email: user.email }));
       authChange();
-      setIsLoading(false)
+      setIsLoading(false);
     });
   }
   // console.log(guestSignIn)
@@ -80,7 +80,10 @@ const SignupModal = () => {
     <>
       <button onClick={() => dispatch(openSignupModal())}>Sign Up</button>
       {isOpen ? (
-        <div className="fixed inset-0  z-50 flex justify-center items-center bg-gray-800 bg-opacity-50 ">
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="fixed inset-0  z-50 flex justify-center items-center bg-gray-800 bg-opacity-50 "
+        >
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white  border-black
         w-[400px] h-[500px] rounded-xl"
@@ -114,7 +117,10 @@ const SignupModal = () => {
                 I agree to get emails about cool stuff on Reddit
               </p>
               <hr className="mt-14" />
-              <form onSubmit={(e) => e.preventDefault()} className="pt-4">
+              <div
+                // onSubmit={(e) => e.preventDefault()}
+                className="pt-4"
+              >
                 <input
                   type="text"
                   className="bg-[#f6f7f8] outline-none
@@ -147,7 +153,7 @@ const SignupModal = () => {
                     "Click To Sign Up"
                   )}
                 </button>
-              </form>
+              </div>
               <button
                 onClick={guestSignIn}
                 className="mt-4 text-blue-600 ml-1 underline"
@@ -156,7 +162,7 @@ const SignupModal = () => {
               </button>
             </div>
           </div>
-        </div>
+        </form>
       ) : (
         ""
       )}

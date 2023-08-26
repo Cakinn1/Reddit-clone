@@ -7,7 +7,6 @@ import {
   TrophyIcon,
 } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
-import NavBarRight from "./NavBarRight";
 
 const Sorting = ({ bgColor }) => {
   const [activeButton, setActiveButton] = useState(null);
@@ -41,7 +40,7 @@ const Sorting = ({ bgColor }) => {
             <button
               className={`justify-center items-center gap-x-2 font-semibold 
             hover:bg-[#DAE0E6] hover:bg-opacity-60 ease-in-out hidden md:flex
-              rounded-full p-2 ${
+              rounded-full p-2 cursor-not-allowed ${
                 activeButton === "comments" ? "bg-opacity-40 bg-[#DAE0E6]" : ""
               }`}
               onClick={() => handleButtonClick("comments")}
@@ -53,9 +52,8 @@ const Sorting = ({ bgColor }) => {
             <button
               className={`justify-center items-center gap-x-2 font-semibold 
             hover:bg-[#DAE0E6] hover:bg-opacity-60 ease-in-out hidden md:flex
-              rounded-full p-2 ${
-                activeButton === "New" ? "bg-opacity-40 bg-[#DAE0E6]" : ""
-              }`}
+              rounded-full p-2 cursor-not-allowed 
+              `}
               onClick={() => handleButtonClick("New")}
             >
               <SunIcon className="h-5" />
@@ -64,9 +62,8 @@ const Sorting = ({ bgColor }) => {
             <button
               className={`hidden md:flex justify-center items-center gap-x-2 font-semibold 
             hover:bg-[#DAE0E6] hover:bg-opacity-60 ease-in-out
-              rounded-full p-2 ${
-                activeButton === "Top" ? "bg-opacity-40 bg-[#DAE0E6]" : ""
-              }`}
+              rounded-full p-2 cursor-not-allowed 
+            `}
               onClick={() => handleButtonClick("Top")}
             >
               <TrophyIcon className="h-5" />
@@ -74,7 +71,7 @@ const Sorting = ({ bgColor }) => {
             </button>
             <button
               className={`md:flex justify-center items-center gap-x-2 font-semibold 
-            hover:bg-[#DAE0E6] hover:bg-opacity-60 ease-in-out absolute right-0 mr-14 mt-1 md:static
+            hover:bg-[#DAE0E6] hover:bg-opacity-60 cursor-not-allowed ease-in-out absolute right-0 mr-14 mt-1 md:static
               rounded-full p-2 
               `}
             >

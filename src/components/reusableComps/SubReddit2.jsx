@@ -9,27 +9,30 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../firebase/firebase";
-import Posts from "./reusableComps/homepageReusable/Posts";
-import SubRedditHeader from "./reusableComps/subredditComponents/SubRedditHeader";
-import SubredditButton from "./reusableComps/subredditComponents/SubredditButton";
-import SubredditText from "./reusableComps/subredditComponents/SubredditText";
-import SubredditTitle from "./reusableComps/subredditComponents/SubredditTitle";
-import Sorting from "./Sorting";
-import { openSignupModal } from "../redux/features/modalSlice";
-import MainSection from "./reusableComps/navBarRightComponents/MainSection";
-import PolicySection from "./reusableComps/navBarRightComponents/PolicySection";
-const SubReddit = () => {
+import { db } from "../../firebase/firebase";
+import Posts from "../reusableComps/homepageReusable/Posts";
+import SubRedditHeader from "../reusableComps/subredditComponents/SubRedditHeader";
+import SubredditButton from "../reusableComps/subredditComponents/SubredditButton";
+import SubredditText from "../reusableComps/subredditComponents/SubredditText";
+import SubredditTitle from "../reusableComps/subredditComponents/SubredditTitle";
+import Sorting from "../Sorting";
+
+import { openSignupModal } from "../../redux/features/modalSlice";
+import MainSection from "./navBarRightComponents/MainSection";
+import PolicySection from "./navBarRightComponents/PolicySection";
+
+const SubReddit2 = () => {
   const [posts, setPosts] = useState([]);
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [userLikedPosts, setUserLikedPosts] = useState(new Map());
   const isAuth = useSelector((state) => state.user.email);
   const dispatch = useDispatch();
+
   useEffect(() => {
     async function fetchPosts() {
-      const postsCollection = collection(db, "posts");
-      const querySnapshot = await getDocs(postsCollection);
+      const funnyCollection = collection(db, "funny");
+      const querySnapshot = await getDocs(funnyCollection);
       const fetchedPosts = [];
 
       querySnapshot.forEach((doc) => {
@@ -63,14 +66,15 @@ const SubReddit = () => {
       likes: 0,
       likedBy: [],
     };
-    const docRef = await addDoc(collection(db, "posts"), newPost);
+    const docRef = await addDoc(collection(db, "funny"), newPost);
     const updatedPosts = [{ ...newPost, id: docRef.id }, ...posts];
     setPosts(updatedPosts);
     setText("");
     setTitle("");
   }
+
   const handleLikeButton = async (postId) => {
-    const postRef = doc(db, "posts", postId);
+    const postRef = doc(db, "funny", postId);
     const postDoc = await getDoc(postRef);
 
     if (postDoc.exists()) {
@@ -94,7 +98,7 @@ const SubReddit = () => {
   };
 
   const handleUnlikeButton = async (postId) => {
-    const postRef = doc(db, "posts", postId);
+    const postRef = doc(db, "funny", postId);
     const postDoc = await getDoc(postRef);
 
     if (postDoc.exists()) {
@@ -137,8 +141,11 @@ const SubReddit = () => {
     }
   };
 
-  const handleDeleteButton = async (postId) => {
-    const postRef = doc(db, "posts", postId);
+  const handleDeleteButton = async (postId, userEmail) => {
+    // if (userEmail !== isAuth) {
+    //   return
+    // }
+    const postRef = doc(db, "funny", postId);
 
     await deleteDoc(postRef);
 
@@ -173,7 +180,7 @@ const SubReddit = () => {
       <Sorting />
       <div className={containerStyle}>
         <div className={subRedditCreatePostContainer}>
-          <SubRedditHeader header="r/Everything" />
+          <SubRedditHeader header="r/Funny" />
           <div className={subRedditOuterContainer}>
             <div className={subRedditInnerContainer}>
               <SubredditTitle title={title} setTitle={setTitle} />
@@ -191,7 +198,7 @@ const SubReddit = () => {
         {posts.map((post, index) => (
           <div className="max-w-[1248px] mx-auto" key={index}>
             <Posts
-              subReddit={"Everything"}
+              subReddit={"r/Funny"}
               postedBy={post.userEmail}
               titlePost={post.title}
               comment={post.text}
@@ -203,7 +210,9 @@ const SubReddit = () => {
               postId={post.id}
               handleDeleteButton={handleDeleteButton}
               disabled={true}
+              subtitle={true}
             />
+
             <button
               className="hidden"
               onClick={() => handleLikeButton(post.id)}
@@ -229,4 +238,4 @@ const SubReddit = () => {
   );
 };
 
-export default SubReddit;
+export default SubReddit2;

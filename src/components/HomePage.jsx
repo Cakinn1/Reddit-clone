@@ -1,6 +1,6 @@
 import React from "react";
 import NavBarRight from "./NavBarRight";
-import Posts from "./Posts";
+import Posts from "./reusableComps/homepageReusable/Posts";
 import Sorting from "./Sorting";
 
 const HomePage = () => {
@@ -8,7 +8,7 @@ const HomePage = () => {
     <div className="pb-10 max-w-[1248px] mx-auto   ">
       <>
         <NavBarRight />
-        <Sorting  />
+        <Sorting />
         <Posts
           image={"centerDiv.png"}
           subReddit="ProgrammerHumor"
@@ -17,6 +17,8 @@ const HomePage = () => {
           titlePost={"How do i center a div?"}
           number={"92"}
           likes={"4.2k"}
+          handleDeleteDisabled={true}
+          disabled={false}
         />
         <Posts
           image={"southPark1.jpeg"}
@@ -27,6 +29,8 @@ const HomePage = () => {
           marginFromImage={20}
           number={"2.8k"}
           likes={"226k"}
+          handleDeleteDisabled={true}
+          disabled={false}
         />
         <Posts
           image={"foodPost.jpeg"}
@@ -36,6 +40,8 @@ const HomePage = () => {
           titlePost={"[Homemade] Steak Fajitas"}
           number={"914"}
           likes={"49.6k"}
+          handleDeleteDisabled={true}
+          disabled={false}
         />
         <Posts
           image={"programmingmeme.webp"}
@@ -45,6 +51,8 @@ const HomePage = () => {
           titlePost={`Why aren't your playing by the rules of the game!`}
           number={"2.6k"}
           likes={"139k"}
+          handleDeleteDisabled={true}
+          disabled={false}
         />
         <Posts
           image={"memestory.jpeg"}
@@ -54,6 +62,8 @@ const HomePage = () => {
           titlePost={"A short story"}
           number={"4.2k"}
           likes={"398k"}
+          handleDeleteDisabled={true}
+          disabled={false}
         />
       </>
     </div>

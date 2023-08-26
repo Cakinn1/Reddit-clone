@@ -6,6 +6,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginModal from "./components/modals/LoginModal";
 import HomePage from "./components/HomePage";
 import SubReddit from "./components/SubReddit";
+import CommentModal from "./components/modals/CommentsModal";
+import HomeSubReddit from "./components/HomeSubReddit";
+import SubReddit1 from "./components/reusableComps/SubReddit1";
+import SubReddit2 from "./components/reusableComps/SubReddit2";
+import SubReddit3 from "./components/reusableComps/subredditComponents/SubReddit3";
 
 function App() {
   return (
@@ -16,8 +21,11 @@ function App() {
           <Routes>
             <Route path="/signup" element={<SignupModal />} />
             <Route path="/login" element={<LoginModal />} />
+            <Route path="/comment" element={<CommentModal />} />
             <Route path="/" element={<HomePage />} />
-            <Route path="/subReddit/" element={<SubReddit />} />
+            <Route path="/subReddit/Everything" element={<SubReddit />} />
+            <Route path="/subReddit/ProgrammerHumor/" element={<SubReddit1 />} />
+            <Route path="/subReddit/Funny/" element={<SubReddit2/>} />
           </Routes>
         </div>
       </Router>
