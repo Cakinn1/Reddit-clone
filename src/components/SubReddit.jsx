@@ -19,8 +19,10 @@ import Sorting from "./Sorting";
 import { openSignupModal } from "../redux/features/modalSlice";
 import MainSection from "./reusableComps/navBarRightComponents/MainSection";
 import PolicySection from "./reusableComps/navBarRightComponents/PolicySection";
+import CommentModal from "./modals/CommentsModal";
 const SubReddit = () => {
   const [posts, setPosts] = useState([]);
+  const [currentPostedPost, setCurrentPostedPost] = useState(null)
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
   const [userLikedPosts, setUserLikedPosts] = useState(new Map());
@@ -66,6 +68,7 @@ const SubReddit = () => {
     const docRef = await addDoc(collection(db, "posts"), newPost);
     const updatedPosts = [{ ...newPost, id: docRef.id }, ...posts];
     setPosts(updatedPosts);
+    setCurrentPostedPost({ ...newPost, id: docRef.id, })
     setText("");
     setTitle("");
   }
@@ -160,7 +163,9 @@ const SubReddit = () => {
   const containerStyle = `bg-white rounded-md lg:w-[640px] w-[1000]  mr-10  mt-6 ml-10 flex relative xl:ml-40 flex-grow`;
 
   return (
-    <div className="max-w-[1248px] mx-auto mb-10">
+    <div className="">
+
+    <div className="max-w-[1248px] mx-auto mb-10 ">
       <div className="hidden lg:flex flex-col float-right h-[1000px] w-[310px] mr-6 xl:mr-20 1100:mr-20 1150:mr-28 1200:mr-40  1250:mr-48 p-1 pt-0">
         <MainSection
           redditPng={"/redditpng.png"}
@@ -203,7 +208,10 @@ const SubReddit = () => {
               postId={post.id}
               handleDeleteButton={handleDeleteButton}
               disabled={true}
+              handleCommentModal={() => setCurrentPostedPost(post.id)} 
             />
+        {/* <CommentModal currentPostedPost={currentPostedPost} postId={post.id} /> */}
+
             <button
               className="hidden"
               onClick={() => handleLikeButton(post.id)}
@@ -226,6 +234,8 @@ const SubReddit = () => {
         ))}
       </div>
     </div>
+    </div>
+
   );
 };
 

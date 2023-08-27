@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { openSignupModal } from "../../../redux/features/modalSlice";
@@ -25,6 +25,25 @@ const MainSection = ({
     }
   };
 
+  const [color, setColor] = useState("#DAE0E6");
+  // bg-[#DAE0E6]
+  const click = (color) => {
+    setColor(color);
+  };
+
+  useEffect(() => {
+    document.body.style.backgroundColor = color;
+  }, [color]);
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadingTimes = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(loadingTimes);
+  }, []);
   return (
     <div
       className={`flex h-[250px] ${
@@ -37,7 +56,8 @@ const MainSection = ({
       <div className="mt-9 z-10 p-1">
         <div className="flex items-center gap-x-4">
           <img src={redditPng} className="h-16 top-6 left-4 absolute" alt="" />
-          <p className="mb-3 ml-16 pt-3">{Home}</p>
+          {loading ?  <p className="mb-3 ml-16 pt-3 bg-gray-300 animate-pulse h-10 rounded-md w-[200px]"></p> : <p className="mb-3 ml-16 pt-3">{Home}</p> }
+         
         </div>
 
         <h1 className="text-[#1c1c1c] text-sm">{mainText}</h1>
@@ -49,7 +69,10 @@ const MainSection = ({
               <button
                 className="bg-blue-600 shadow-lg h-[36px] w-full rounded-full
               text-white font-bold"
-                onClick={handleCreatePost}
+                onClick={() =>
+                  //  { click("yellow", "blue")
+                  handleCreatePost
+                }
               >
                 Create Post
               </button>
@@ -71,41 +94,47 @@ const MainSection = ({
         )}
         {disabled === true ? (
           <>
-            <div className="flex flex-col mr-4 ml-6">
-              <div className="flex items-center gap-x-3">
-                <h1 className="text-lg">1</h1>
-                <h1 className="ml-4 font-bold ">r/Everything</h1>
-                <Link to="/subReddit/Everything">
-                  <button className="ml-[65px] hover:bg-opacity-50 bg-blue-500 text-white shadow-md  rounded-full px-3 py-1  ">
-                    View
-                  </button>
-                </Link>
-              </div>
-              <hr className="mt-4" />
-            </div>
-            <div className="flex flex-col mr-4 ml-6">
-              <div className="flex items-center gap-x-3">
-                <h1 className="text-lg mt-2">2</h1>
-                <h1 className="ml-4 font-bold mt-2">r/Funny</h1>
-                <Link to="/subReddit/Funny/">
-                  <button className="ml-[100px] bg-blue-500 text-white shadow-md  rounded-full px-3 py-1 mt-2 hover:bg-opacity-50">
-                    View
-                  </button>
-                </Link>
-              </div>
-              <hr className="mt-4" />
-            </div>
-            <div className="flex flex-col mr-4 ml-6">
-              <div className="flex items-center gap-x-3">
-                <h1 className="text-lg mt-2">3</h1>
-                <h1 className="ml-4 font-bold mt-2">r/ProgrammerHumor</h1>
-                <Link to="/subReddit/ProgrammerHumor/">
-                  <button className="hover:bg-opacity-50  bg-blue-500 text-white shadow-md  rounded-full px-3 py-1 mt-2 ">
-                    View
-                  </button>
-                </Link>
-              </div>
-            </div>
+            {loading ? (
+             <div className="bg-gray-300 h-[150px] w-[280px] ml-3  animate-pulse"></div>
+            ) : (
+              <>
+                <div className="flex flex-col mr-4 ml-6">
+                  <div className="flex items-center gap-x-3">
+                    <h1 className="text-lg">1</h1>
+                    <h1 className="ml-4 font-bold ">r/Everything</h1>
+                    <Link to="/subReddit/Everything">
+                      <button className="ml-[65px] hover:bg-opacity-50 bg-blue-500 text-white shadow-md  rounded-full px-3 py-1  ">
+                        View
+                      </button>
+                    </Link>
+                  </div>
+                  <hr className="mt-4" />
+                </div>
+                <div className="flex flex-col mr-4 ml-6">
+                  <div className="flex items-center gap-x-3">
+                    <h1 className="text-lg mt-2">2</h1>
+                    <h1 className="ml-4 font-bold mt-2">r/Funny</h1>
+                    <Link to="/subReddit/Funny/">
+                      <button className="ml-[100px] bg-blue-500 text-white shadow-md  rounded-full px-3 py-1 mt-2 hover:bg-opacity-50">
+                        View
+                      </button>
+                    </Link>
+                  </div>
+                  <hr className="mt-4" />
+                </div>
+                <div className="flex flex-col mr-4 ml-6">
+                  <div className="flex items-center gap-x-3">
+                    <h1 className="text-lg mt-2">3</h1>
+                    <h1 className="ml-4 font-bold mt-2">r/ProgrammerHumor</h1>
+                    <Link to="/subReddit/ProgrammerHumor/">
+                      <button className="hover:bg-opacity-50  bg-blue-500 text-white shadow-md  rounded-full px-3 py-1 mt-2 ">
+                        View
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </>
+            )}
           </>
         ) : (
           ""

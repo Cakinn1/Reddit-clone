@@ -6,6 +6,7 @@ const initialState = {
   commentModalOpen: false,
 };
 
+
 export const modalSlice = createSlice({
   name: "modal",
   initialState,

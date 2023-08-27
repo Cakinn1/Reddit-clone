@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NavBarRight from "./NavBarRight";
 import Posts from "./reusableComps/homepageReusable/Posts";
 import Sorting from "./Sorting";
 
 const HomePage = () => {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+  const loadingTimes = setTimeout(() => {
+  setLoading(false)
+  }, 2000)
+
+  return () => clearTimeout(loadingTimes)
+  }, [])
+
+
   return (
     <div className="pb-10 max-w-[1248px] mx-auto   ">
       <>

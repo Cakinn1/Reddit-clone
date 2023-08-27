@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { auth } from "../../firebase/firebase";
 import {
   signOut,
@@ -15,10 +15,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   closeSignupModal,
   openSignupModal,
+  openLoginModal,
+  closeLoginModal,
 } from "../../redux/features/modalSlice";
 import { setUser, clearUser } from "../../redux/features/authSlice";
 import { Link, useNavigate } from "react-router-dom";
-
 
 const LoginModal = () => {
   const [email, setEmail] = useState("");
@@ -27,39 +28,27 @@ const LoginModal = () => {
   let clicked = false;
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isOpen = useSelector((state) => state.modal.signupModalOpen);
+  const isOpen = useSelector((state) => state.modal.loginModalOpen);
   console.log(isOpen);
 
-  async function registerUser() {
+  async function loginUser() {
     setIsLoading(true);
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(dispatch(setUser({ uid: user.uid, email: user.email })));
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        dispatch(setUser({ uid: user.uid, email: user.email }));
         setIsLoading(false);
-        authChange();
       })
       .catch((error) => {
-        alert("An error occurred: " + error.message);
+        alert("An error occured :" + error.message);
+        setIsLoading(false);
       });
   }
 
-  function authChange() {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate("/");
-        dispatch(closeSignupModal());
-      }
-    });
-  }
-
-  // make the tick as required, maybe make the while thing a form?
-
   return (
     <>
-      {/* <button onClick={() => dispatch(openSignupModal())}>Sign Up</button> */}
-      {!isOpen ? (
+      <button onClick={() => dispatch(openLoginModal())}>Login</button>
+      {isOpen ? (
         <div className="fixed inset-0  z-50 flex justify-center items-center bg-gray-800 bg-opacity-50 ">
           <div
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white  border-black
@@ -67,7 +56,7 @@ const LoginModal = () => {
           >
             <XMarkIcon
               className="h-6 absolute right-0 m-4 cursor-pointer"
-              onClick={() => dispatch(closeSignupModal())}
+              onClick={() => dispatch(closeLoginModal())}
             />
             <div className="p-16 ">
               <h1 className="font-semibold text-xl">Log In</h1>
@@ -98,8 +87,8 @@ const LoginModal = () => {
                 <input
                   type="text"
                   className="bg-[#f6f7f8] outline-none
-              text-sm font-bold
-              rounded-full w-full h-12 pl-4"
+                    text-sm font-bold
+                 rounded-full w-full h-12 pl-4"
                   placeholder="Email"
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -116,7 +105,7 @@ const LoginModal = () => {
                 />
 
                 <button
-                  onClick={registerUser}
+                  onClick={loginUser}
                   className="w-full font-bold bg-[#f6f7f8]  rounded-full mt-6 h-12"
                 >
                   {isLoading ? (
@@ -124,18 +113,21 @@ const LoginModal = () => {
                       <ArrowPathIcon className="animate-spin h-10 mx-auto" />
                     </>
                   ) : (
-                    "Click To Sign Up"
+                    "Click To Log In"
                   )}
                 </button>
 
                 <button className="mt-4 ">
-                  Already a redditor?
+                  Not a redditor?
                   <Link
                     to="/"
-                    onClick={() => dispatch(closeSignupModal())}
-                    className="text-blue-600 ml-1 underline"
+                    onClick={() => {
+                      dispatch(closeLoginModal());
+                      dispatch(openSignupModal());
+                    }}
+                    className="text-blue-600 ml-1 underline "
                   >
-                    Log In
+                    Sign Up
                   </Link>
                 </button>
               </form>

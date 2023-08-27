@@ -8,6 +8,7 @@ const PolicyEN = ({
   language5,
   language6,
 }) => {
+
   return (
     <div className="flex mb-2">
       <div className="pt-2 mr-32 cursor-not-allowed">
